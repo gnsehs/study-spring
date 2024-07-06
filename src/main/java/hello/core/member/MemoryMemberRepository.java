@@ -1,8 +1,12 @@
 package hello.core.member;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+
+@Component // memoryMemberRepository
 public class MemoryMemberRepository implements MemberRepository {
 
     private static Map<Long, Member> store = new HashMap<>(); // 실무에서는 concurrnet hashmmap 사용

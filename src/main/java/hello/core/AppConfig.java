@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 //call AppConfig.getMemberRepository <- 이론상 3번 호출되어야되는데 한번만 호출된다.
 //call AppConfig.orderService
 
-@Configuration // 구성정보, 설정정보 -> 빼면 싱글톤을 보장하지 않는다.
+@Configuration // 구성정보, 설정정보 -> 빼면 싱글톤을 보장하지 않는다. -> component
 public class AppConfig { // 필요한 구현객체를 생성 // 공연 기획자
 //    @Autowired MemberRepository memberRepository; -> 의존관계 자동주입
 
