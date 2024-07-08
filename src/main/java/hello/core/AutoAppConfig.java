@@ -15,9 +15,4 @@ import org.springframework.context.annotation.FilterType;
 ) // @ComponentScan은 이 애너테이션이 붙은 클래스를 스캔하여 스프링 빈으로 등록한다.
 public class AutoAppConfig {
 
-
-    @Bean(name = "memoryMemberRepository")
-    MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
-    }
 }

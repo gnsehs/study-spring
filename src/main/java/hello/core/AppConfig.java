@@ -35,7 +35,7 @@ public class AppConfig { // 필요한 구현객체를 생성 // 공연 기획자
     public OrderService orderService() {
         System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(getMemberRepository(), getDiscountPolicy());
-    }
+        }
     @Bean
     public DiscountPolicy getDiscountPolicy() {
         return new RateDiscountPolicy(); // 할인 정책을 변경하려면 이 부분만 변경 하면 된다.

@@ -11,7 +11,8 @@ public class MemberServiceImpl implements MemberService {
     @Autowired // 의존관계 주입 자동화 -> 기존 @Bean에서는 의존관계 주입을 명시 했지만 AutoAppConfig에서는 다르다.
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-    } // 클래스 안에서 의존관계 주입을 해결해야함.
+    }
+    // 클래스 안에서 의존관계 주입을 해결해야함.
 // ac.getBean(MemberRepository.class)
     @Override
     public void join(Member member) {
