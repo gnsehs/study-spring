@@ -8,3 +8,4 @@
     - 📁mvc-1-itemservice: 스프링 MVC 1편 - 섹션 7. 스프링 MVC - 웹 페이지 만들기
 - mvc2
     - 📁mvc2-thymeleaf-basic: 스프링 MVC 2편 - 타임리프 - 기본 기능
+    - 📁form: 스프링 MVC 2편-  타임리프 - 스프링 통합과 폼
