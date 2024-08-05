@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -147,7 +148,7 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-   // @PostMapping("/add")
+//   @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
 
@@ -179,7 +180,7 @@ public class ValidationItemControllerV2 {
         }
 
         // 특정한 필드가 하닌 복합 룰 검증
-        if (item.getPrice() != null || item.getQuantity() != null) {
+        if (item.getPrice() != null && item.getQuantity() != null) {
             int resultPrice = item.getPrice() * item.getQuantity();
 
             if (resultPrice < 10000) {
@@ -206,6 +207,12 @@ public class ValidationItemControllerV2 {
 
     @PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            /*model.addAttribute("errors", errors);*/ // -> model에 담지 않아도 자동으로 뷰로 넘어감 !
+            return "validation/v2/addForm";
+        }
+
 
 
         log.info("obj name = {}", bindingResult.getObjectName());
@@ -213,10 +220,14 @@ public class ValidationItemControllerV2 {
         // 검증 오류 결과를 보관
         /*Map<String, String> errors = new HashMap<>();*/
 
+
         // 검증 로직
         if (!StringUtils.hasText(item.getItemName())) {
             bindingResult.rejectValue("itemName","required");
         }
+        // ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult,"itemName","required"); -> 대체가능
+        
+        
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
             bindingResult.rejectValue("price","range",new Object[]{1000,1000000},null); // reject: object, rejectValue: field
         }
@@ -225,7 +236,7 @@ public class ValidationItemControllerV2 {
         }
 
         // 특정한 필드가 하닌 복합 룰 검증
-        if (item.getPrice() != null || item.getQuantity() != null) {
+        if (item.getPrice() != null && item.getQuantity() != null) {
             int resultPrice = item.getPrice() * item.getQuantity();
 
             if (resultPrice < 10000) {
