@@ -79,7 +79,7 @@ public class HomeController {
     public String homeLoginV3Spring(@SessionAttribute(value = SessionConst.LOGIN_MEMBER,required = false) Member loginMember, Model model) {
 
         // 세션에 회원 데이터가 없으면 home
-        if (loginMember == null) {
+        if (loginMember == null) { // 로그인 안된 상황
             return "home";
         }
 
