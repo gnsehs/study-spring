@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.*;
 
@@ -72,7 +73,7 @@ public class LoginController {
 
     }
 
-    @PostMapping("login")
+//    @PostMapping("login")
     public String loginV3(@Validated @ModelAttribute("loginForm") LoginForm form,
                           BindingResult bindingResult,
                           HttpServletRequest request) {
@@ -98,6 +99,38 @@ public class LoginController {
         return "redirect:/";
 
     }
+
+    /**
+     * 로그인 이후 리 다이렉트 처리
+     */
+    @PostMapping("login")
+    public String loginV4(@Validated @ModelAttribute("loginForm") LoginForm form,
+                          BindingResult bindingResult,
+                          HttpServletRequest request,
+                          @RequestParam(defaultValue = "/") String redirectURL) {
+
+        if (bindingResult.hasErrors()) {
+            return "login/loginForm";
+        }
+
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "login/loginForm";
+        }
+
+        /*로그인 성공 처리*/
+
+        // 세션이 있으면 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession(); // 기본 값 true -> 세션이 없으면 생성
+        // 세션에 회원정보를 저장
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        return "redirect:" + redirectURL;
+
+    }
+
 
     /**
      * 해당 쿠키의 종료 날짜를 0으로 지정하기 -> 클라이언트의 쿠키를 종료 날짜 0 쿠키로 바꿔치기
