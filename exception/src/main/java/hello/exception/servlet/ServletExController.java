@@ -12,7 +12,7 @@ public class ServletExController {
     /**
      * exception의 경우 status 500
      */
-    @GetMapping("/error-ex")
+    @GetMapping("/error-ex") //500
     public void errorEx() {
         throw new RuntimeException("예외 발생!");
     }
